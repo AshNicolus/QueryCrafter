@@ -1,0 +1,6 @@
+langchain
+langgraph
+tavily-python
+langchain-community
+streamlit
+python-dotenv
