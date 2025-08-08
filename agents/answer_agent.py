@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-# Install: pip install -U langchain-openai langchain-core
+
 from langchain_openai import AzureChatOpenAI
 
 load_dotenv()
@@ -17,7 +17,6 @@ AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT") or "https://tradeguar
 AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION") or "2024-08-01-preview"
 AZURE_OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT") or "gpt-4o"  
 
-# Initialize AzureChatOpenAI
 llm = AzureChatOpenAI(
     azure_endpoint=AZURE_OPENAI_ENDPOINT,
     azure_deployment=AZURE_OPENAI_DEPLOYMENT,
@@ -28,10 +27,9 @@ llm = AzureChatOpenAI(
 )
 
 def answer_agent(state):
-    # Expecting state["web_results"] to be a string (concatenated snippets)
+    
     context = state["web_results"]
 
-    # Simple input length guard
     max_input_tokens = 1024 
     context = context[:max_input_tokens]
 
@@ -39,8 +37,6 @@ def answer_agent(state):
 
     print("[AnswerAgent] Generating answer...")
 
-    # AzureChatOpenAI supports string input via .invoke() which is treated as a Human message
     answer = llm.invoke(prompt)
 
-    # answer is an AIMessage; to get the text content:
     return {"output": answer.content}
