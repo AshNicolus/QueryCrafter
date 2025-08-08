@@ -6,10 +6,7 @@ import streamlit as st
 from langchain_openai import AzureChatOpenAI
 
 load_dotenv()
-# AZURE_OPENAI_API_KEY = "AIkg5CJq34sgoJaRg6DnO4dViK3e2t8cIPnfQTtxUtWDFcJkYDDqJQQJ99BGACHYHv6XJ3w3AAAAACOGLjBK"
-# AZURE_OPENAI_ENDPOINT = "https://tradeguard3.cognitiveservices.azure.com"
-# AZURE_OPENAI_API_VERSION = "2024-08-01-preview"
-# AZURE_OPENAI_DEPLOYMENT = "gpt-4o"
+
 
 AZURE_OPENAI_API_KEY = st.secrets["AZURE_OPENAI_API_KEY"]
 AZURE_OPENAI_ENDPOINT = st.secrets["AZURE_OPENAI_ENDPOINT"]
