@@ -1,28 +1,46 @@
 import os
 from dotenv import load_dotenv
-from langchain_community.llms import HuggingFaceHub
 
+# Install: pip install -U langchain-openai langchain-core
+from langchain_openai import AzureChatOpenAI
 
 load_dotenv()
 
-#Using a GPT-2 model as it is lightweight and Open-Source can be easily accessible through Inference Point
-llm = HuggingFaceHub(
-    repo_id="gpt2",
-    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_API_TOKEN"),
-    model_kwargs={"temperature": 0.7, "max_new_tokens": 300}
+# REQUIRED ENV VARS (preferred approach)
+# os.environ["AZURE_OPENAI_API_KEY"] = "<your_key>"
+# os.environ["AZURE_OPENAI_ENDPOINT"] = "https://tradeguard3.cognitiveservices.azure.com"
+# os.environ["AZURE_OPENAI_API_VERSION"] = "2024-08-01-preview"
+
+# Or set directly in code if needed (not recommended for production)
+AZURE_OPENAI_API_KEY = "AIkg5CJq34sgoJaRg6DnO4dViK3e2t8cIPnfQTtxUtWDFcJkYDDqJQQJ99BGACHYHv6XJ3w3AAAAACOGLjBK"
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT") or "https://tradeguard3.cognitiveservices.azure.com"
+AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION") or "2024-08-01-preview"
+AZURE_OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT") or "gpt-4o"  # your deployment name in Azure
+
+# Initialize AzureChatOpenAI
+llm = AzureChatOpenAI(
+    azure_endpoint=AZURE_OPENAI_ENDPOINT,
+    azure_deployment=AZURE_OPENAI_DEPLOYMENT,
+    api_key=AZURE_OPENAI_API_KEY,
+    api_version=AZURE_OPENAI_API_VERSION,
+    temperature=0.7,
+    max_tokens=3000,
 )
 
-
 def answer_agent(state):
+    # Expecting state["web_results"] to be a string (concatenated snippets)
     context = state["web_results"]
 
-    # Using this to avoid the Run Time Error
-    max_input_tokens = 1024 - 200
+    # Simple input length guard
+    max_input_tokens = 1024 
     context = context[:max_input_tokens]
 
-    prompt = f"Read the information and give the concise Explanation:\n\n{context}"
+    prompt = f"Read the information and give a concise explanation:\n\n{context}"
 
     print("[AnswerAgent] Generating answer...")
 
-    answer = llm(prompt)
-    return {"output": answer}
+    # AzureChatOpenAI supports string input via .invoke() which is treated as a Human message
+    answer = llm.invoke(prompt)
+
+    # answer is an AIMessage; to get the text content:
+    return {"output": answer.content}

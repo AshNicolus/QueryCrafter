@@ -8,7 +8,7 @@ st.title("Research Agent and Answer Generator")
 
 topic = st.text_input("Enter your research topic:")
 
-#
+
 if topic:
 
     with st.spinner('Searching and generating answer...'):

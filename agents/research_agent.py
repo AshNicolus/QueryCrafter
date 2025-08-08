@@ -8,7 +8,7 @@ def research_agent(state):
     query = state["input"]
     print(f"[ResearchAgent] Searching with Tavily: {query}")
 
-    tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+    tavily = TavilyClient(api_key="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")
     #Here we need only max to max 5 relevant resources for doing the task
     results = tavily.search(query=query, max_results=5)
 
