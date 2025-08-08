@@ -12,8 +12,8 @@ load_dotenv()
 # os.environ["AZURE_OPENAI_API_VERSION"] = "2024-08-01-preview"
 
 # Or set directly in code if needed (not recommended for production)
-AZURE_OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT") or "xxxxxxxxxxxxxxxx"
+AZURE_OPENAI_API_KEY = "AIkg5CJq34sgoJaRg6DnO4dViK3e2t8cIPnfQTtxUtWDFcJkYDDqJQQJ99BGACHYHv6XJ3w3AAAAACOGLjBK"
+AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT") or "https://tradeguard3.cognitiveservices.azure.com"
 AZURE_OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION") or "2024-08-01-preview"
 AZURE_OPENAI_DEPLOYMENT = os.getenv("AZURE_OPENAI_DEPLOYMENT") or "gpt-4o"  
 
