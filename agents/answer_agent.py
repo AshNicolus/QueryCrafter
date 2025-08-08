@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferMemory
 
 from langchain_openai import AzureChatOpenAI
 
@@ -25,7 +26,10 @@ llm = AzureChatOpenAI(
     temperature=0.7,
     max_tokens=3000,
 )
+# memory = ConversationBufferMemory(return__messages=True)
+memory = ConversationBufferMemory(return_messages=True)
 
+conversation=ConversationChain(llm=llm, memory=memory, verbose=True)
 def answer_agent(state):
     
     context = state["web_results"]
@@ -33,10 +37,10 @@ def answer_agent(state):
     max_input_tokens = 1024 
     context = context[:max_input_tokens]
 
-    prompt = f"Read the information and give a concise explanation:\n\n{context}"
+    prompt = f"User asked: {state['input']}\n\nHere is some web info:\n{context}"
 
     print("[AnswerAgent] Generating answer...")
+    result = conversation.predict(input=prompt)
+    # answer = llm.invoke(prompt)
 
-    answer = llm.invoke(prompt)
-
-    return {"output": answer.content}
+    return {"output": result}
