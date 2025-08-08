@@ -3,11 +3,11 @@ import os
 from dotenv import load_dotenv
 import streamlit as st
 load_dotenv()
-
+TAVILY_API_KEY = "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"
 def research_agent(state):
     query = state["input"]
     print(f"[ResearchAgent] Searching with Tavily: {query}")
-    TAVILY_API_KEY = st.secrets.get("TAVILY_API_KEY") or os.getenv("TAVILY_API_KEY")
+    # TAVILY_API_KEY = st.secrets.get("TAVILY_API_KEY") or os.getenv("TAVILY_API_KEY")
 
     tavily = TavilyClient(api_key=TAVILY_API_KEY)
     
