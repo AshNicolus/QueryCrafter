@@ -10,9 +10,8 @@ topic = st.text_input("Enter your research topic:")
 
 
 if topic:
-
+    
     with st.spinner('Searching and generating answer...'):
-
         result = app.invoke({"input": topic})
 
     st.subheader("Final Answer:")
