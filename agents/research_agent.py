@@ -8,7 +8,7 @@ def research_agent(state):
     query = state["input"]
     print(f"[ResearchAgent] Searching with Tavily: {query}")
     # Hard-coded Tavily API key for testing (replace/remove after debugging)
-    TAVILY_API_KEY = "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"
+    
 
     # Validate presence of API key and surface helpful debug info (masked)
     if not TAVILY_API_KEY:
@@ -22,8 +22,7 @@ def research_agent(state):
 
     tavily = TavilyClient(api_key=TAVILY_API_KEY)
 
-    # Here we need only up to 5 relevant resources for doing the task.
-    # Wrap the call to surface a clearer error when the API key is invalid.
+   
     try:
         results = tavily.search(query=query, max_results=5)
     except Exception as e:
