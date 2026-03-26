@@ -7,11 +7,9 @@ from google import genai
 
 load_dotenv()
 
-# Gemini / Vertex AI client configuration. Override via Streamlit secrets if available.
-GEMINI_PROJECT = st.secrets.get("GEMINI_PROJECT", "finmate-svc-1-88322725")
-GEMINI_LOCATION = st.secrets.get("GEMINI_LOCATION", "us-central1")
+GEMINI_PROJECT = xxxxxxxxxx
+GEMINI_LOCATION = xxxxxxxxx
 
-# Initialize the genai client for Vertex AI (Gemini)
 GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY")
 
 if GEMINI_API_KEY:
@@ -35,8 +33,6 @@ def generate_gemini(prompt: str, model: str = "gemini-2.5-flash") -> str:
     )
     return getattr(resp, "text", str(resp))
 
-
-# Simple file-backed conversation memory (keeps recent messages)
 MEMORY_DIR = Path('.cache')
 MEMORY_FILE = MEMORY_DIR / 'answer_memory.json'
 MAX_MESSAGES = 200
@@ -60,7 +56,6 @@ def load_memory():
 def save_memory(messages):
     try:
         _ensure_memory_dir()
-        # keep only the last MAX_MESSAGES
         messages = messages[-MAX_MESSAGES:]
         with MEMORY_FILE.open('w', encoding='utf-8') as f:
             json.dump(messages, f, ensure_ascii=False, indent=2)
@@ -78,11 +73,9 @@ def answer_agent(state):
     max_input_tokens = 1024 
     context = context[:max_input_tokens]
 
-    # support clearing memory via state flag
     if state.get('clear_memory'):
         save_memory([])
 
-    # include recent conversation history in the prompt
     history = load_memory()
     recent = history[-RECENT_MESSAGES:]
     history_text = "\n".join([f"{m['role'].capitalize()}: {m['text']}" for m in recent]) if recent else ""
@@ -95,7 +88,7 @@ def answer_agent(state):
     print("[AnswerAgent] Generating answer...")
     result = generate_gemini(prompt)
 
-    # persist conversation pieces
+    
     try:
         append_message('user', state.get('input', ''))
         append_message('assistant', result)
